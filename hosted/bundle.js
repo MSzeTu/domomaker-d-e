@@ -17,6 +17,11 @@ var handleDomo = function handleDomo(e) {
   return false;
 };
 
+var deleteDomo = function deleteDomo(e) {
+  /*sendAjax('DELETE', $();
+  }); */
+};
+
 var DomoForm = function DomoForm(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "domoForm",
@@ -39,6 +44,13 @@ var DomoForm = function DomoForm(props) {
     type: "text",
     name: "age",
     placeholder: "Domo Age"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "level"
+  }, "Level: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoLevel",
+    type: "text",
+    name: "level",
+    placeholder: "Domo Level (>0)"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -69,9 +81,16 @@ var DomoList = function DomoList(props) {
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "domoName"
-    }, "Name: ", domo.name), /*#__PURE__*/React.createElement("h3", {
+    }, "Name: ", domo.name), /*#__PURE__*/React.createElement("input", {
+      type: "button",
+      value: "Delete",
+      className: "domoButton",
+      onClick: deleteDomo
+    }), /*#__PURE__*/React.createElement("h3", {
       className: "domoAge"
-    }, "Age: ", domo.age));
+    }, "Age: ", domo.age), /*#__PURE__*/React.createElement("h3", {
+      className: "domoLevel"
+    }, "Level: ", domo.level));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "domoList"
