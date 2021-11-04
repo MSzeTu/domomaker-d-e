@@ -49,16 +49,14 @@ const deleteDomo = (request, response) => {
   if (!req.body.name) {
     return res.status(400).json({ error: 'RAWR! Name is required' });
   }
-  Domo.DomoModel.findByName(req.body.name, (err, doc) => {
-    if (!doc) { // check if it exists
-      return res.status(400).json({ error: 'RAWR! Domo does not exist!' });
-    }
-    return res;
-  });
 
   return Domo.DomoModel.delete(req.body.name, (err, docs) => {
+    console.dir(docs);
+    if (docs.deletedCount === 0) { // Check if anything was actually deleted.
+      // I.E, did the Domo exist?
+      return res.status(400).json({ error: 'RAWR! Domo does not exist!' });
+    }
     if (err) {
-      console.log(err);
       return res.status(400).json({ error: 'An Error occured' });
     }
     return res.json({ domos: docs });

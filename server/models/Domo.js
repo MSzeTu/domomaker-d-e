@@ -62,7 +62,7 @@ DomoSchema.statics.findByName = (namef, callback) => {
   return DomoModel.findOne(search).exec(callback);
 };
 
-DomoSchema.statics.delete = (namef, callback) => {
+DomoSchema.statics.delete = (namef, callback) => { // Calls the delete function
   DomoModel.deleteOne({ name: namef }).exec(callback);
 };
 
