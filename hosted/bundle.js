@@ -15,11 +15,18 @@ var handleDomo = function handleDomo(e) {
     loadDomosFromServer();
   });
   return false;
-};
+}; //DeleteCode
+
 
 var deleteDomo = function deleteDomo(e) {
-  /*sendAjax('DELETE', $();
-  }); */
+  e.preventDefault();
+  $("#domoMessage").animate({
+    width: 'hide'
+  }, 350);
+  sendAjax('DELETE', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), function () {
+    loadDomosFromServer();
+  });
+  return false;
 };
 
 var DomoForm = function DomoForm(props) {
@@ -62,6 +69,32 @@ var DomoForm = function DomoForm(props) {
   }));
 };
 
+var DeleteForm = function DeleteForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "deleteForm",
+    onSubmit: deleteDomo,
+    name: "deleteForm",
+    action: "/delete",
+    method: "DELETE",
+    className: "deleteForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "name"
+  }, "Name: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoName",
+    type: "text",
+    name: "name",
+    placeholder: "Domo Name"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "deleteSubmit",
+    type: "submit",
+    value: "Delete Domo"
+  }));
+};
+
 var DomoList = function DomoList(props) {
   if (props.domos.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -81,12 +114,7 @@ var DomoList = function DomoList(props) {
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {
       className: "domoName"
-    }, "Name: ", domo.name), /*#__PURE__*/React.createElement("input", {
-      type: "button",
-      value: "Delete",
-      className: "domoButton",
-      onClick: deleteDomo
-    }), /*#__PURE__*/React.createElement("h3", {
+    }, "Name: ", domo.name), /*#__PURE__*/React.createElement("h3", {
       className: "domoAge"
     }, "Age: ", domo.age), /*#__PURE__*/React.createElement("h3", {
       className: "domoLevel"
@@ -109,7 +137,11 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
     csrf: csrf
   }), document.querySelector("#makeDomo"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
+    csrf: csrf
+  }), document.querySelector("#deleteDomo"));
   ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
+    csrf: csrf,
     domos: []
   }), document.querySelector("#domos"));
   loadDomosFromServer();
